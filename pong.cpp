@@ -1,6 +1,9 @@
 /*
  * Pong Framework with a basic Seven Segment Display (SSD)
  * Author: Randi A.
+ * Modified By: Chad Manning
+ * Course: CMPS 3350
+ * Date: March3rd, 2019
  * To Compile : g++ pong.cpp -Wall -lrt -lX11 -lGL -o pong
  */
 #include <bitset>   //bit string library
@@ -113,7 +116,7 @@ struct Ball {
     float pos[2];
     float vel[2];
     float color[3] {1.0f, 1.0f, 1.0f};
-    const float MAX_SPEED = 20.0;
+    const float MAX_SPEED = 8.0;
 
     Ball() {
         resetBall();
@@ -415,8 +418,12 @@ void physics() {
         (ball[0].pos[0] <= (leftBumper.position[0] + 9.0f))) { //right x  {
             leftBumper.color[0] = leftBumper.color[2] = 0.0f;
             ball[0].pos[0] = leftBumper.position[0] + 9.0f;
-            if(ball[0].vel[0] != ball[0].MAX_SPEED)
+            if(ball[0].vel[0]*-1 < ball[0].MAX_SPEED) {
                 ball[0].vel[0] *= -1.2f;
+			} else {
+				ball[0].vel[0] *= -1;
+			}
+			cout << ball[0].vel[0] << endl;
             ball[0].color[1] = ball[0].color[2] -= 0.1f;
     }
         //right bumper
@@ -426,8 +433,12 @@ void physics() {
         (ball[0].pos[0] + 5.0f <= (rightBumper.position[0] + 9.0f))) {
         //negation of the ball[1]'s x-velocity
             rightBumper.color[0] = rightBumper.color[2] = 0.0f;
-            if(ball[0].vel[0] != ball[0].MAX_SPEED)
+            if(ball[0].vel[0] < ball[0].MAX_SPEED) {
                 ball[0].vel[0] *= -1.2f;
+			} else {
+				ball[0].vel[0] *= -1;
+			}
+			cout << ball[0].vel[0] << endl;
             ball[0].pos[0] = rightBumper.position[0]-9.0f;
             ball[0].color[1] = ball[0].color[2] -= 0.1f;
     }
